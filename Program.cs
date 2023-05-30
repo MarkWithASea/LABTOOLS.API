@@ -6,14 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddSystemsManager($"/{builder.Environment.EnvironmentName}/LabTools-API/AppSettings", TimeSpan.FromMinutes(5));
+builder.Configuration.AddSystemsManager($"/{builder.Environment.EnvironmentName}/Labtools-API/AppSettings", TimeSpan.FromMinutes(5));
 
 // configure strongly typed settings object
 var appSettings = new AppSettings(builder.Configuration);
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(appSettings.ConnectionString));
 
 // Add services to the container.
 
