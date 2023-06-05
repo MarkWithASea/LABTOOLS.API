@@ -1,6 +1,6 @@
 namespace LABTOOLS.API.DataTransferObjects
 {
-    public interface IDataTransferOjbect
+    public interface IDataTransferObject
     {
         public int Id { get; set; }
     }

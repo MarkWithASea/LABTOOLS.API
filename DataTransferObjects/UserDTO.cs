@@ -1,12 +1,12 @@
 namespace LABTOOLS.API.DataTransferObjects
 {
-    public class UserDTO : IDataTransferOjbect
+    public class UserDTO : IDataTransferObject
     {        
         public int Id { get; set; }
 
-        public string CognitoId { get; set; }
+        public string? CognitoId { get; set; }
         
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public string? FirstName {get; set;}
 
