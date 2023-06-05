@@ -7,8 +7,8 @@ namespace LABTOOLS.API.Data.Repositories
 {
     public class UserRepository : EfCoreRepository<User>
     {
-        public UserRepository(AppDbContext context)
-            : base(context)
+        public UserRepository(AppDbContext appDbContext)
+            : base(appDbContext)
         { }
 
         public override async Task<User> Get(int id)

@@ -3,45 +3,49 @@ using LABTOOLS.API.Data;
 using LABTOOLS.API.Data.Repositories;
 using LABTOOLS.API.DataTransferObjects;
 using LABTOOLS.API.Models;
+using LABTOOLS.API.JsonApi;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace LABTOOLS.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserApiController : ApiController<UserDTO, User, UserRepository>
     {
-        //public UserApiController(IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
-        //    : base(httpContextAccessor, mapper, configuration)
-        //{ }
-
-        public UserApiController(AppDbContext appDbContext, IMapper mapper, IConfiguration configuration)
-            : base(appDbContext, mapper, configuration)
+        public UserApiController(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
+            : base(appDbContext, httpContextAccessor, mapper, configuration)
         { }
 
         /*
-        [HttpGet]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
-        {
-            var results = await Repository.Get(id);
-            var dto = Mapper.Map<UserDTO>(results);
-            return dto;
-        }
+        public UserApiController(AppDbContext appDbContext, IMapper mapper, IConfiguration configuration)
+            : base(appDbContext, mapper, configuration)
+        { }
         */
 
-        [HttpGet]
-        public async Task<ActionResult<UserDTO>> GetQuery(string userCognitoId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<JsonApiDocument<UserDTO>>> GetUser() //int id)
         {
-            IQueryable<User> query = Repository.GetQuery(userCognitoId);
+            var results = await Repository.Get(2);
+            var dto = Mapper.Map<UserDTO>(results);
+            Builder.SetData(dto);
+            return Builder.GetJsonApiDocument();
+        }
+                
+        [HttpGet]
+        public async Task<ActionResult<JsonApiDocument<UserDTO>>> GetQuery()
+        {
+            IQueryable<User> query = Repository.GetQuery(UserCognitoId);
 
             var results = await query.ToListAsync();
-            
-            var dtos = Mapper.Map<IEnumerable<UserDTO>>(results).FirstOrDefault()!;
+            var count = results.Count();
 
-            //Builder
+            var dtos = Mapper.Map<IEnumerable<UserDTO>>(results).FirstOrDefault()!;           
 
-            return dtos;
+            Builder.SetData(dtos);
+            return Builder.GetJsonApiDocument();
         }
     }
 }

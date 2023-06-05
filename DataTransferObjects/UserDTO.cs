@@ -1,6 +1,6 @@
 namespace LABTOOLS.API.DataTransferObjects
 {
-    public class UserDTO : IDataTransferOjbect
+    public class UserDTO : IDataTransferObject
     {        
         public int Id { get; set; }
 
