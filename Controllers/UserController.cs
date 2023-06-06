@@ -13,9 +13,9 @@ namespace LABTOOLS.API.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class UserApiController : ApiController<UserDTO, User, UserRepository>
+    public class UserController : ApiController<UserDTO, User, UserRepository>
     {
-        public UserApiController(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
+        public UserController(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
             : base(appDbContext, httpContextAccessor, mapper, configuration)
         { }
 
