@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace LABTOOLS.API.Models
 {
-    public class User: IEntity
+    public class User : IEntity
     {
         public User(string email, string cognitoId, string firstName, string lastName)
         {
@@ -24,13 +24,11 @@ namespace LABTOOLS.API.Models
         [Required]
         public string Email { get; set; }
 
-        public string? FirstName {get; set;}
+        public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
 
-        //public List<Role> Roles {get; set;}
-
-        //public Role Role{get; set;}
+        public List<Role> Roles { get; set; }
 
         public bool IsDisabled { get; set; }
 

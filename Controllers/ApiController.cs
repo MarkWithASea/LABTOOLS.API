@@ -19,7 +19,8 @@ namespace LABTOOLS.API.Controllers
         private IMapper _mapper;
         private User? _sessionUser;
         private IJsonApiDocBuilder<TDto> _builder;
-        private AppDbContext _appDbContext;
+        
+        protected AppDbContext _appDbContext;
         
         protected IHttpContextAccessor _httpContextAccessor;
         private AppSettings _appSettings;
@@ -62,7 +63,7 @@ namespace LABTOOLS.API.Controllers
             {
                 if (_repository == null)
                 {
-                    _repository = (TRepository)Activator.CreateInstance(typeof(TRepository), new object[] {AppDbContext})!;
+                    _repository = (TRepository)Activator.CreateInstance(typeof(TRepository), new object[] {_httpContextAccessor, AppSettings})!;
                 }
 
                 return _repository;
@@ -100,9 +101,8 @@ namespace LABTOOLS.API.Controllers
         }
         */
         
-        public ApiController(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
+        public ApiController(IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
         {
-            _appDbContext = appDbContext;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _appSettings = new AppSettings(configuration);

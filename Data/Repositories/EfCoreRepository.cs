@@ -14,6 +14,12 @@ namespace LABTOOLS.API.Data.Repositories
             _context = context;
         }
 
+        public EfCoreRepository(IHttpContextAccessor httpContextAccessor, AppSettings appSettings)
+        {
+            string clientConnectionString = appSettings.ConnectionString;
+            _context = new AppDbContext(httpContextAccessor, clientConnectionString);
+        }
+
         public virtual async Task<TEntity> Add(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
