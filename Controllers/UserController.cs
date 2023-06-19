@@ -116,7 +116,7 @@ namespace LABTOOLS.API.Controllers
             return Builder.GetJsonApiDocument();
         }
 
-        [HttpPut]
+        [HttpPost("rename")]
         public async Task<ActionResult<JsonApiDocument<UserDTO>>> Put(UpdateUserRequest obj)
         {
             SessionUser.FirstName = obj.Data.FirstName;

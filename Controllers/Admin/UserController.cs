@@ -23,11 +23,11 @@ namespace LABTOOLS.API.Controllers.Admin
 {
     [Authorize]
     [ApiController]
-    [Route("api/admin/[controller]")]
+    [Route("api/Admin/[controller]")]
     //[RequiredRole(ROLE_ADMIN)]
-    public class UsersController : AdminApiController<UserDTO, User, AdminUserRepository>
+    public class UserController : AdminApiController<UserDTO, User, AdminUserRepository>
     {
-        public UsersController(IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
+        public UserController(IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration configuration)
             : base(httpContextAccessor, mapper, configuration)
         { }
 
@@ -312,21 +312,19 @@ namespace LABTOOLS.API.Controllers.Admin
                 return Conflict("User with that email already exists");
             }
 
-            /* 
             var role = await Repository.Context.Roles.FindAsync(model.Data.RoleId);
             if (role == null)
             {
                 return BadRequest($"Could not find a Role matching Id: {model.Data.RoleId}");
             }
-            */
 
             var client = new CognitoUserManager(Amazon.RegionEndpoint.GetBySystemName(AppSettings.Region));
             AdminCreateUserResponse response = await client.AdminCreateUserAsync(model.Data.Email, AppSettings.UserPoolId!, AppSettings.AppClientId!, attributeTypes);
 
             var newUser = new User(model.Data.Email, response.User.Username, model.Data.FirstName, model.Data.LastName);
-            //newUser.Roles!.Add(role);
+            newUser.Roles!.Add(role);
 
-            //await client.AdminAddUserToGroupAsync(newUser.CognitoId, AppSettings.UserPoolId!, role!.CognitoGroupName);
+            await client.AdminAddUserToGroupAsync(newUser.CognitoId, AppSettings.UserPoolId!, role!.CognitoGroupName);
 
             await Repository.Add(newUser);
             await Repository.Save();

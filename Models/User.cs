@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 
 namespace LABTOOLS.API.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(CognitoId), IsUnique = true)]
     public class User : IEntity
     {
         public User(string email, string cognitoId, string firstName, string lastName)
@@ -14,6 +16,9 @@ namespace LABTOOLS.API.Models
             CognitoId = cognitoId;
             FirstName = firstName;
             LastName = lastName;
+            Roles = new List<Role>();
+            IsDisabled = false;
+            IsDeleted = false;
         }
 
         public int Id { get; set; }
