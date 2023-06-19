@@ -1,4 +1,5 @@
 using LABTOOLS.API.Data;
+using LABTOOLS.API.Extensions;
 using LABTOOLS.API.Helpers;
 using LABTOOLS.API.JsonApi;
 //using LABTOOLS.API.Middleware;
@@ -94,7 +95,7 @@ var app = builder.Build();
 
 ServiceActivator.Configure(app.Services);
 
-//app.SeedData(appSettings);
+app.SeedData(appSettings);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

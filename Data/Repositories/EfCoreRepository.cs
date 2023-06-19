@@ -14,10 +14,16 @@ namespace LABTOOLS.API.Data.Repositories
             _context = context;
         }
 
+        public EfCoreRepository(IHttpContextAccessor httpContextAccessor, AppSettings appSettings)
+        {
+            string clientConnectionString = appSettings.ConnectionString;
+            _context = new AppDbContext(httpContextAccessor, clientConnectionString);
+        }
+
         public virtual async Task<TEntity> Add(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
-            await _context.SaveChangesAsync();
+            await Save();
             return entity;
         }
         
@@ -30,7 +36,7 @@ namespace LABTOOLS.API.Data.Repositories
             }
 
             _context.Set<TEntity>().Remove(entity);
-            await _context.SaveChangesAsync();
+            await Save();
 
             return entity;
         }
@@ -49,7 +55,7 @@ namespace LABTOOLS.API.Data.Repositories
         public virtual async Task<TEntity> Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await Save();
             return entity;
         }
 

@@ -1,3 +1,5 @@
+using LABTOOLS.API.Models;
+
 namespace LABTOOLS.API.DataTransferObjects
 {
     public class UserDTO : IDataTransferObject
@@ -12,12 +14,12 @@ namespace LABTOOLS.API.DataTransferObjects
 
         public string? LastName { get; set; }
 
-        //public List<Role> Roles {get; set;}
-
-        //public Role Role{get; set;}
+        public Role Role{get; set;}
 
         public bool IsDisabled { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool? IsConfirmed { get; set; } = null;
     }
 }

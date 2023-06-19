@@ -37,5 +37,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.2" />
   </ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<EmbeddedResource Include="Seedings\Development\20230609_TestSeed.sql" />
+	</ItemGroup>
 
 </Project>
