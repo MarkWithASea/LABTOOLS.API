@@ -10,8 +10,23 @@ namespace LABTOOLS.API.Mapping
 
             if (entityType == typeof(User))
             {
-                mapping = new Dictionary<string, string>();
+                mapping = new Dictionary<string, string>()
+                {
+                    {"firstname", "FirstName"},
+                    {"lastname", "LastName"},
+                    {"email", "Email"},
+                    {"role", "Role.Name"}
+                };
                 
+            }
+            else if (entityType == typeof(Role))
+            {
+                mapping = new Dictionary<string, string>()
+                {
+                    { "name", "Name" },
+                    {"description", "Description"},
+                    { "usergroupname", "CognitoGroupName" },
+                };
             }
 
             string? mappedValue = null;
