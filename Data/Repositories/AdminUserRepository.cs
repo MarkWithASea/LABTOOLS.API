@@ -17,7 +17,7 @@ namespace LABTOOLS.API.Data.Repositories
         public override async Task<User> Get(int id)
         {
             var user = await Context.Users
-                //.Include(u => u.Roles)
+                .Include(u => u.Roles)
                 .Where(u => u.Id == id
                     && u.IsDeleted == false)
                 .FirstOrDefaultAsync();
@@ -38,7 +38,7 @@ namespace LABTOOLS.API.Data.Repositories
         public async Task<User> GetDisabledUsers(int id)
         {
             var user = await Context.Users
-                //.Include(u => u.Roles)
+                .Include(u => u.Roles)
                 .Where(u => u.Id == id
                     && u.IsDisabled == true
                     && u.IsDeleted == false)
@@ -50,7 +50,7 @@ namespace LABTOOLS.API.Data.Repositories
         public override IQueryable<User> GetQuery(string userCognitoId)
         {
             return Context.Users
-                //.Include(u => u.Roles)
+                .Include(u => u.Roles)
                 .Where(u => u.IsDisabled == false && u.IsDeleted == false);
         }
     }

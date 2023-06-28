@@ -14,7 +14,9 @@ namespace LABTOOLS.API.DataTransferObjects
 
         public string? LastName { get; set; }
 
-        public Role Role{get; set;}
+        public int? RoleId {get; set;}
+        
+        public string? Role{get; set;}
 
         public bool IsDisabled { get; set; }
 
