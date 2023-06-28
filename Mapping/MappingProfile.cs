@@ -8,7 +8,11 @@ namespace LABTOOLS.API.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDTO>()
+                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Roles!.FirstOrDefault()!.Id))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Roles!.FirstOrDefault()!.Name));
+
+            CreateMap<Role, RoleDTO>();
         }
     }
 }

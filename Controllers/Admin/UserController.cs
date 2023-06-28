@@ -185,15 +185,13 @@ namespace LABTOOLS.API.Controllers.Admin
             var client = new CognitoUserManager(Amazon.RegionEndpoint.GetBySystemName(AppSettings.Region));
             await client.AdminUpdateUserAttributes(oldEmail, AppSettings.UserPoolId!, AppSettings.AppClientId!, attributeTypes);
 
-            /*
             if (user.Roles!.FirstOrDefault()?.Id != role.Id)
             {
                 await ClearUserRoles(user);
-                user.Roles!.Add(role);
+                user.Roles.Add(role);
                 await client.AdminAddUserToGroupAsync(user.CognitoId, AppSettings.UserPoolId!, role!.CognitoGroupName);
             }
-            */
-
+            
             await Repository.Save();
 
             // Build JsonApiDocument of data transfer object
@@ -322,7 +320,7 @@ namespace LABTOOLS.API.Controllers.Admin
             AdminCreateUserResponse response = await client.AdminCreateUserAsync(model.Data.Email, AppSettings.UserPoolId!, AppSettings.AppClientId!, attributeTypes);
 
             var newUser = new User(model.Data.Email, response.User.Username, model.Data.FirstName, model.Data.LastName);
-            newUser.Roles!.Add(role);
+            newUser.Roles.Add(role);
 
             await client.AdminAddUserToGroupAsync(newUser.CognitoId, AppSettings.UserPoolId!, role!.CognitoGroupName);
 
@@ -356,8 +354,7 @@ namespace LABTOOLS.API.Controllers.Admin
             Builder.SetData(dto);
             return Builder.GetJsonApiDocument();
         }
-
-        /*
+        
         private async Task<IEnumerable<string>> ClearUserRoles(User user)
         {
             var client = new CognitoUserManager(Amazon.RegionEndpoint.GetBySystemName(AppSettings.Region));
@@ -370,10 +367,9 @@ namespace LABTOOLS.API.Controllers.Admin
                 await client.AdminRemoveUserFromGroupAsync(user.CognitoId, AppSettings.UserPoolId!, groupName);
             }
 
-            user.Roles!.Clear();
+            user.Roles.Clear();
 
             return roleGroupNames;
         }
-        */
     }
 }
