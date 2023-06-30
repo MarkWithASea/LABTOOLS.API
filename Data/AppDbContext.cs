@@ -44,5 +44,7 @@ namespace LABTOOLS.API.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Role> Roles { get; init; }
+
+        public DbSet<Models.Analyzer> Analyzers { get; set; }
     }
 }

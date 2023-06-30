@@ -78,7 +78,7 @@ namespace LABTOOLS.API.Data.Repositories
         public async Task<User> GetUser(string cognitoId)
         {
             var user = await _context.Users
-                //.Include(user => user.Roles)
+                .Include(user => user.Roles)
                 .Where(user => user.CognitoId == cognitoId)!
                 .FirstOrDefaultAsync();
 

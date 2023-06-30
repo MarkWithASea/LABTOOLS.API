@@ -13,6 +13,8 @@ namespace LABTOOLS.API.Mapping
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Roles!.FirstOrDefault()!.Name));
 
             CreateMap<Role, RoleDTO>();
+
+            CreateMap<Models.Analyzer, AnalyzerDTO>();
         }
     }
 }
